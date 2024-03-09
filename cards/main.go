@@ -2,7 +2,5 @@ package main
 
 func main() {
 	cards := newCards()
-	hand, remainingCards := deal(cards, 5)
-	hand.print()
-	remainingCards.print()
+	cards.writeToFile("my_cards.txt")
 }
