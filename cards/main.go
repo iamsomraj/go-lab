@@ -1,6 +1,8 @@
 package main
 
 func main() {
-	cards := newCards()
-	cards.writeToFile("my_cards.txt")
+	FILE_NAME := "my_cards.txt"
+
+	cards := newDeckFromFile(FILE_NAME)
+	cards.print()
 }

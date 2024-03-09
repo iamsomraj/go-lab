@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 )
 
@@ -42,9 +42,19 @@ func toBytes(s string) []byte {
 	return []byte(s)
 }
 
-
 func (d deck) writeToFile(fileName string) error {
 	cards := d.toString()
 	cardBytes := toBytes(cards)
-	return ioutil.WriteFile(fileName, cardBytes, 0666) // This is deprecated
+	return os.WriteFile(fileName, cardBytes, 0666)
+}
+
+func newDeckFromFile(fileName string) deck {
+	cardBytes, error := os.ReadFile(fileName)
+	if error != nil {
+		fmt.Println("Error: ", error)
+		os.Exit(1)
+	}
+	cards := strings.Split((string(cardBytes)), ",")
+	d := deck(cards)
+	return d
 }
