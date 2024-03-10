@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 )
 
 type deck []string
@@ -11,7 +13,7 @@ type deck []string
 func newCards() deck {
 	cards := deck{}
 	cardGroups := []string{"Spades", "Clubs", "Diamonds", "Hearts"}
-	cardValues := []string{"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jocker", "Queen", "King"}
+	cardValues := []string{"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Joker", "Queen", "King"}
 
 	for _, group := range cardGroups {
 		for _, value := range cardValues {
@@ -57,4 +59,17 @@ func newDeckFromFile(fileName string) deck {
 	cards := strings.Split((string(cardBytes)), ",")
 	d := deck(cards)
 	return d
+}
+
+func randomInt(max int) int {
+	source := rand.NewSource(time.Now().UnixNano())
+	r := rand.New(source)
+	return r.Intn(max)
+}
+
+func (d deck) shuffle() {
+	for i := range d {
+		newPosition := randomInt(len(d) - 1)
+		d[i], d[newPosition] = d[newPosition], d[i]
+	}
 }
